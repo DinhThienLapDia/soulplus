@@ -43,10 +43,16 @@ class CalendarAction(models.Model):
 class PrivateGroup(models.Model):
     user_created = models.ForeignKey('UserProfile')
     action_related = models.ForeignKey('Action')
-
+    class Meta:
+        verbose_name = "PrivateGroup"
+        verbose_name_plural = "PrivateGroup"
+    
 class Like(models.Model):
     userid = models.IntegerField()
     actionid = models.IntegerField()
+    class Meta:
+        verbose_name = "Like"
+        verbose_name_plural = "Likes"
     
 
 class ActionPicture(models.Model):

@@ -179,19 +179,26 @@ class LikeAction(APIView):
 
 class GetLikesAction(APIView):
     def post(self, request, format=None):
-        actionid = request.data['actionid']
+        actionid = request.data["actionid"]
         try:
             result = Like.objects.filter(actionid=actionid)
+            print result
             number_of_likes = result.count()
+            print number_of_likes
             users_liked = []
             for i in range(0, number_of_likes):
                 user_liked_id = result[i].userid
-                user_avatar = UserProfile.objects.get(pk=user_liked_id).avatar.url
-                user_liked_json={"userid":user_liked_id,"avatar":user_avatar}
-                users_liked.append(user_liked_json)
+                try:
+                    user_avatar = UserProfile.objects.get(pk=user_liked_id).avatar.url
+                    user_liked_json={"userid":user_liked_id,"avatar":user_avatar}
+                    users_liked.append(user_liked_json)
+                except:
+                    user_liked_json={"userid":user_liked_id}
+                    users_liked.append(user_liked_json)
             
             return Response(status=200,data={'status':"success",'users_liked':users_liked})
-        except:
+        except Exception as e:
+            print e
             return Response(status=200 ,data={'status': "fail"})
 
 class Comment(APIView):
