@@ -196,7 +196,7 @@ class GetLikesAction(APIView):
                     user_liked_json={"userid":user_liked_id}
                     users_liked.append(user_liked_json)
             
-            return Response(status=200,data={'status':"success",'users_liked':users_liked})
+            return Response(status=200,data={'status':"success",'likes_number':number_of_likes,'users_liked':users_liked})
         except Exception as e:
             print e
             return Response(status=200 ,data={'status': "fail"})
