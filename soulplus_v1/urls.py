@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^api/v1/notifications/', apps.core.api.GetNotifications.as_view()),
     url(r'^api/v1/getmyaction/', apps.core.api.GetMyAction.as_view()),
     url(r'^api/v1/likeaction/', apps.core.api.LikeAction.as_view()),
+    url(r'^api/v1/getlikesaction/', apps.core.api.GetLikesAction.as_view()),
     url(r'^api/v1/comment/', apps.core.api.Comment.as_view()),
     url(r'^api/v1/sendinvitation/', apps.core.api.SendInvitation.as_view()),
     url(r'^api/v1/acceptinvitation/', apps.core.api.AcceptInvitation.as_view()),

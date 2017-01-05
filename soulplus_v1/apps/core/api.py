@@ -9,7 +9,7 @@ from rest_framework.parsers import JSONParser
 
 import json
 import random
-from core.models import  UserProfile, Action, Notification, Comment
+from core.models import  UserProfile, Action, Notification, Comment, Like, PrivateGroup, CalendarAction
 from django.contrib.auth.models import User
 from django.core import serializers
 from django.http import HttpResponse 
@@ -140,32 +140,59 @@ class ListAction(APIView):
     def post(self, request, format=None):
         #actions = Action.objects.order_by('?')[:20]
         
-        response_message = {'status': "success"}
+        response_message = []
         sample = random.sample(xrange(Action.objects.count()),3)
         result = []
         try:
             result = [Action.objects.all()[i] for i in sample] 
             for j in range(0,3):
                 action = result[j]
-                resultjson = {'title':action.title,'content':action.content, 'actionid':action.pk, 'imageurl':action.firstPicture.url}
-                response_message['action_'+str(j)] = resultjson
+                resultjson = {'title':action.title,'content':action.content, 'actionid':action.pk, 'avatarurl':action.firstPicture.url}
+                response_message.append(resultjson)
         #return HttpResponse(serializers.serialize("json", actions))
-            return Response(status=200 ,data=response_message)
+            response_message_json = {'status':"success",'action':response_message}
+            return Response(status=200 ,data=response_message_json)
         except:
             return Response(status=401 ,data={'status': "fail"})
 
 class GetNotifications(APIView):
     def post(self, request, format=None):
+        userid = request.data['userid']
         return Response(status=200 ,data={'success': False})
 
 class GetMyAction(APIView):
     def post(self, request, format=None):
         return Response(status=200 ,data={'success': False})
+    
 
 class LikeAction(APIView):
     def post(self, request, format=None):
-        
-        return Response(status=200 ,data={'success': False})
+        userpk = request.data["userpk"]
+        actionpk = request.data["actionpk"]
+        print userpk 
+        try:
+            Like.objects.create(userid=int(userpk),actionid=int(actionpk))
+            return Response(status=200,data={'status':"success"})
+        except Exception as e:
+            print e
+            return Response(status=400,data={'error': "fail"})
+
+class GetLikesAction(APIView):
+    def post(self, request, format=None):
+        actionid = request.data['actionid']
+        try:
+            result = Like.objects.filter(actionid=actionid)
+            number_of_likes = result.count()
+            users_liked = []
+            for i in range(0, number_of_likes):
+                user_liked_id = result[i].userid
+                user_avatar = UserProfile.objects.get(pk=user_liked_id).avatar.url
+                user_liked_json={"userid":user_liked_id,"avatar":user_avatar}
+                users_liked.append(user_liked_json)
+            
+            return Response(status=200,data={'status':"success",'users_liked':users_liked})
+        except:
+            return Response(status=200 ,data={'status': "fail"})
 
 class Comment(APIView):
     pass

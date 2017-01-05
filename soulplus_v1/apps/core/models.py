@@ -20,6 +20,7 @@ class UserProfile(models.Model):
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     occupation = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
+    avatar = models.ImageField(upload_to='action/avatars', blank=True)
     createdDate = models.DateTimeField(auto_now_add=True)
     last_active = models.DateTimeField(auto_now_add=True)
     birthday = models.DateTimeField(null=True, blank=True)
@@ -43,9 +44,9 @@ class PrivateGroup(models.Model):
     user_created = models.ForeignKey('UserProfile')
     action_related = models.ForeignKey('Action')
 
-class Like():
-    userlike = models.ForeignKey('UserProfile')
-    likein = models.ForeignKey('Action')
+class Like(models.Model):
+    userid = models.IntegerField()
+    actionid = models.IntegerField()
     
 
 class ActionPicture(models.Model):
