@@ -176,13 +176,13 @@ class CreateFriend(APIView):
             return Response({'status':"success"},status=200)
         except:
             return Response({'status':"fail"},status=201)
-def updatenotification(userpk,actionpk):
+def updatenotification(userpk,actionid):
     try:
         friends = Friend.objects.filter(userid=userpk)
         print "number of friend", friends.count()
         for friend in friends:
             print "creating notification"
-            Notification.objects.create(userid=friend.friendid,notifcationtype='Liked',friend_like_id=userpk,actionlikeid=actionpk)
+            Notification.objects.create(userid=friend.friendid,notifcationtype='Liked',friend_like_id=userpk,actionlikeid=actionid)
             print "success"
     except Exception as e:
         print e      
