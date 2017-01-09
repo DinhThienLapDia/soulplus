@@ -9,7 +9,7 @@ from rest_framework.parsers import JSONParser
 
 import json
 import random
-from core.models import  UserProfile, Action, Notification, Comment, Like, PrivateGroup, CalendarAction
+from core.models import  UserProfile, Action, Notification, Comment, Like, PrivateGroup, CalendarAction, Friend
 from django.contrib.auth.models import User
 from django.core import serializers
 from django.http import HttpResponse 
