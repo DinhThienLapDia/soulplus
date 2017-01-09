@@ -166,6 +166,13 @@ class GetMyAction(APIView):
     def post(self, request, format=None):
         return Response(status=200 ,data={'success': False})
     
+def createfriend(userid,friendid):
+    Friend.objects.create(userid=userid,friendid=friendid)
+
+class CreateFriend(APIView):
+    def post(self, request, format=None):
+        createfriend(request.data['userid'],request.data['friendid']) 
+        
 def updatenotification(userpk,actionid):
     try:
         friends = Friend.objects.filter(userid=userpk)
