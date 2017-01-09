@@ -117,7 +117,7 @@ class Action(models.Model):
     createDate = models.DateTimeField(auto_now_add=True,verbose_name='CreatedDate',null=True)
     startDate = models.DateTimeField(null=True, blank=True,verbose_name='StartDate')
     endDate = models.DateTimeField(null=True, blank=True,verbose_name='EndDate')
-    modified =  models.DateTimeField(auto_now=True,verbose_name='timeUpdated')
+    modified =  models.DateTimeField(auto_now=True,verbose_name='timeUpdated',null=True)
     #imageurl = u'<img src="%s" />' % (self.firstPicture.url)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True,blank=True, related_name='author')
     isverified = models.BooleanField(verbose_name='isverified',default=False)
