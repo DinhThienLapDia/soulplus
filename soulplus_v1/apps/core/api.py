@@ -184,8 +184,8 @@ def updatenotification(userpk,actionid):
             print "creating notification"
             Notification.objects.create(userid=friend.friendid,notifcationtype='Liked',friend_like_id=userpk,actionlikeid=actionpk)
             print "success"
-    except:
-        print "no friend"      
+    except Exception as e:
+        print e      
          
 class LikeAction(APIView):
     def post(self, request, format=None):
