@@ -204,9 +204,9 @@ class Notification(models.Model):
     createdDate = models.DateTimeField(auto_now_add=True)
     notificationtype = models.CharField(max_length=1,
                                          choices=NOTIFICATION_TYPES)
-    comment = models.ForeignKey('Comment')
+    comment = models.ForeignKey('Comment',null=True, blank=True)
     isread = models.BooleanField(default=False)
-    inviation = models.ForeignKey('Invitation')
+    inviation = models.ForeignKey('Invitation',null=True, blank=True)
     class Meta:
         verbose_name = 'Notification'
         verbose_name_plural = 'Notifications'
