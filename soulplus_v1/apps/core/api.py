@@ -178,7 +178,7 @@ class LikeAction(APIView):
         print userpk 
         try:
             Like.objects.create(userid=int(userpk),actionid=int(actionpk))
-            t = threading.Thread(target=updatenotification)
+            t = threading.Thread(target=self.updatenotification)
             t.start()
             return Response(status=200,data={'status':"success"})
         except Exception as e:
