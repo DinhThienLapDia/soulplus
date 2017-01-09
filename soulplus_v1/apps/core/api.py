@@ -167,10 +167,13 @@ class GetMyAction(APIView):
         return Response(status=200 ,data={'success': False})
     
 def updatenotification(userpk,actionid):
+    try:
         friends = Friend.objects.filter(userid=userpk)
         for friend in friends:
             Notification.objects.create(userid=friend.friendid,notifcationtype='Liked',friend_like_id=userpk,actionlikeid=actionpk)
-            
+    except:
+        print "no friend"      
+         
 class LikeAction(APIView):
     def post(self, request, format=None):
         userpk = request.data["userpk"]
