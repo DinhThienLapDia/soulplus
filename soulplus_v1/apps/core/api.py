@@ -166,19 +166,19 @@ class GetMyAction(APIView):
     def post(self, request, format=None):
         return Response(status=200 ,data={'success': False})
     
-
-class LikeAction(APIView):
-    def updatenotification(userpk,actionid):
+def updatenotification(userpk,actionid):
         friends = Friend.objects.filter(userid=userpk)
         for friend in friends:
             Notification.objects.create(userid=friend.friendid,notifcationtype='Liked',friend_like_id=userpk,actionlikeid=actionpk)
+            
+class LikeAction(APIView):
     def post(self, request, format=None):
         userpk = request.data["userpk"]
         actionpk = request.data["actionpk"]
         print userpk 
         try:
             Like.objects.create(userid=int(userpk),actionid=int(actionpk))
-            t = threading.Thread(target=self.updatenotification(actionid=actionpk))
+            t = threading.Thread(target=updatenotification(userid=actionpk,actionid=actionpk))
             t.start()
             return Response(status=200,data={'status':"success"})
         except Exception as e:
