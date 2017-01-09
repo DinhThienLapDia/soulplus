@@ -182,7 +182,7 @@ def updatenotification(userpk,actionid):
         print "number of friend", friends.count()
         for friend in friends:
             print "creating notification"
-            Notification.objects.create(userid=friend.friendid,notifcationtype='Liked',friend_like_id=userpk,actionlikedid=actionid)
+            Notification.objects.create(userid=friend.friendid,notificationtype='Liked',friend_like_id=userpk,actionlikedid=actionid)
             print "success"
     except Exception as e:
         print e      
