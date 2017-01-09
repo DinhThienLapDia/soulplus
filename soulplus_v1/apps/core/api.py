@@ -179,6 +179,7 @@ class CreateFriend(APIView):
 def updatenotification(userpk,actionid):
     try:
         friends = Friend.objects.filter(userid=userpk)
+        print friends.count()
         for friend in friends:
             print "creating notification"
             Notification.objects.create(userid=friend.friendid,notifcationtype='Liked',friend_like_id=userpk,actionlikeid=actionpk)
