@@ -176,7 +176,7 @@ class CreateFriend(APIView):
             return Response({'status':"success"},status=200)
         except:
             return Response({'status':"fail"},status=201)
-def updatenotification(userpk,actionid):
+def updatenotification(userpk,actionpk):
     try:
         friends = Friend.objects.filter(userid=userpk)
         print "number of friend", friends.count()
