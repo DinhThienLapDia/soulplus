@@ -168,7 +168,7 @@ class GetMyAction(APIView):
     
 
 class LikeAction(APIView):
-    def updatenofification(userid,actionid):
+    def updatenotification(userid,actionid):
         friends = Friend.objects.filter(userid=userid)
         for friend in friends:
             Notification.objects.create(userid=friend.friendid,notifcationtype='Liked',friend_like_id=userid,actionlikeid=actionid)
