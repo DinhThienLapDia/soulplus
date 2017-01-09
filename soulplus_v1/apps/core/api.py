@@ -171,8 +171,11 @@ def createfriend(userid,friendid):
 
 class CreateFriend(APIView):
     def post(self, request, format=None):
-        createfriend(request.data['userid'],request.data['friendid']) 
-        
+        try:
+            createfriend(request.data['userid'],request.data['friendid']) 
+            return Response({'status':"success"},status=200)
+        except:
+            return Response({'status':"fail"},status=201)
 def updatenotification(userpk,actionid):
     try:
         friends = Friend.objects.filter(userid=userpk)
