@@ -114,7 +114,7 @@ class Action(models.Model):
     title = models.CharField(max_length=1024, null=True, blank=False,verbose_name=u'Title')
     firstPicture = models.ImageField(upload_to='action/images', blank=True)
     content = models.TextField(max_length=20000,null=True,blank=False,verbose_name='Details')
-    createDate = models.DateTimeField(auto_now_add=True,verbose_name='CreatedDate')
+    createDate = models.DateTimeField(auto_now_add=True,verbose_name='CreatedDate',null=True)
     startDate = models.DateTimeField(null=True, blank=True,verbose_name='StartDate')
     endDate = models.DateTimeField(null=True, blank=True,verbose_name='EndDate')
     modified =  models.DateTimeField(auto_now=True,verbose_name='timeUpdated')
