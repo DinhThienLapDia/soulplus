@@ -1,0 +1,21 @@
+[09/Jan/2017 23:54:29] ERROR [django.request:284] Internal Server Error: /api/v1/likeaction/
+Traceback (most recent call last):
+  File "/home/namnp/.local/lib/python2.7/site-packages/django/core/handlers/base.py", line 149, in get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/namnp/.local/lib/python2.7/site-packages/django/core/handlers/base.py", line 147, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/namnp/.local/lib/python2.7/site-packages/django/views/decorators/csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/namnp/.local/lib/python2.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/namnp/.local/lib/python2.7/site-packages/rest_framework/views.py", line 477, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/namnp/.local/lib/python2.7/site-packages/rest_framework/views.py", line 437, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/namnp/.local/lib/python2.7/site-packages/rest_framework/views.py", line 474, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/namnp/MyProject/soulplus_v1/apps/core/api.py", line 176, in post
+    userpk = request.data["userpk"]
+  File "/home/namnp/.local/lib/python2.7/site-packages/django/utils/datastructures.py", line 85, in __getitem__
+    raise MultiValueDictKeyError(repr(key))
+MultiValueDictKeyError: "'userpk'"

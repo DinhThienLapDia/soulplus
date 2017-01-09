@@ -30,6 +30,13 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.occupation 
     
+class Friend(models.Model):
+    friendid = models.IntegerField()
+    userid = models.IntegerField()
+    class Meta:
+        verbose_name = "Friend"
+        verbose_name_plural = "Friends"
+    
 #@python_2_unicode_compatible
 class CalendarAction(models.Model):
     actionid = models.ForeignKey('Action')
@@ -176,16 +183,24 @@ class Notification(models.Model):
     ACTION_DEADLINE = 'D'
     ACTION_CLOSED = 'F'
     REPLY_COMMENT = 'R'
+    RECEIVED_INVITATION = 'I'
 
     NOTIFICATION_TYPES = (
         (LIKED, 'Liked'),
         (COMMENTED_IN, 'Commented'),
-        (ACCEPTED_INVITATION, 'accepted'),
-        (ACTION_DEADLINE, 'deadlined'),
+        (RECEIVED_INVITATION, 'Invitation'),
+        (ACCEPTED_INVITATION, 'Accepted'),
+        (ACTION_DEADLINE, 'Deadlined'),
         (ACTION_CLOSED, 'ClosedAction'),
         (REPLY_COMMENT, 'ReplyComment'),
         )
-    action = models.ForeignKey('Action')
+    userid = models.IntegerField(null=True, blank=True)
+    friend_like_id = models.IntegerField(null=True, blank=True)
+    user_comment_id = models.IntegerField(null=True, blank=True)
+    actionlikedid = models.IntegerField(null=True, blank=True)
+    calendaractionid = models.IntegerField(null=True, blank=True)
+    Invitationid = models.IntegerField(null=True, blank=True)
+    privateGroupid = models.IntegerField(null=True, blank=True)
     createdDate = models.DateTimeField(auto_now_add=True)
     notificationtype = models.CharField(max_length=1,
                                          choices=NOTIFICATION_TYPES)

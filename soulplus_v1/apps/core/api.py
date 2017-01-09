@@ -23,6 +23,7 @@ from allauth.socialaccount import providers
 from allauth.socialaccount.models import SocialLogin, SocialToken, SocialApp
 from allauth.socialaccount.providers.facebook.views import fb_complete_login
 from allauth.socialaccount.helpers import complete_social_login
+import threading
 
 
 class AccountSignup(APIView):
@@ -72,15 +73,16 @@ class AccountSignin(APIView):
             except :
                 valid_email = False
             if ((len(passwordinput) < 3) or not valid_email):
-                return Response({"error":"Invalid_param"}, status=status.HTTP_400_BAD_REQUEST)
-        
-            if User.objects.get(email=emailinput).check_password(passwordinput):
-                return Response({'status':"success" ,'userid':User.objects.get(email=emailinput).pk}, status=status.HTTP_200_OK)
+                return Response({"error":"Invalid_password_or_email"}, status=status.HTTP_400_BAD_REQUEST)
+            try:
+                if User.objects.get(email=emailinput).check_password(passwordinput):
+                    return Response({'status':"success" ,'userid':User.objects.get(email=emailinput).pk}, status=status.HTTP_200_OK)
 
-            else:
+                else:
             
-                return Response({'status':"password_incorrect"}, status=status.HTTP_200_OK)
-        
+                    return Response({'status':"password_incorrect"}, status=status.HTTP_200_OK)
+            except User.DoesNotExist:
+                return Response({"error":"user_does_not_exist"},status=400)
         if request.data['signin_type'] == "phone":
             phonenumber = str(request.data['phonenumber'])
             password = str(request.data['password'])
@@ -93,7 +95,7 @@ class AccountSignin(APIView):
                 else:
                     return Response({'status':"password_incorrect"}, status=status.HTTP_200_OK)
             except User.DoesNotExist:
-                return Response({"error":"user_does_not_exist"})
+                return Response({"error":"user_does_not_exist"},status=400)
 
 class FacebookSignin(APIView):
    # permission_classes = (AllowAny,)
@@ -166,12 +168,18 @@ class GetMyAction(APIView):
     
 
 class LikeAction(APIView):
+    def updatenofification(userid,actionid):
+        friends = Friend.objects.filter(userid=userid)
+        for friend in friends:
+            Notification.objects.create(userid=friend.friendid,notifcationtype='Liked',friend_like_id=userid,actionlikeid=actionid)
     def post(self, request, format=None):
         userpk = request.data["userpk"]
         actionpk = request.data["actionpk"]
         print userpk 
         try:
             Like.objects.create(userid=int(userpk),actionid=int(actionpk))
+            t = threading.Thread(target=updatenotification)
+            t.start()
             return Response(status=200,data={'status':"success"})
         except Exception as e:
             print e
